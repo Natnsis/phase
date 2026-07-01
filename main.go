@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"pases/config"
+)
 
 func main() {
-	fmt.Println("hehe")
+	config.DbConnection()
+	fmt.Println("lesgo")
 }
