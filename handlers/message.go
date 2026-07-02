@@ -9,6 +9,11 @@ type Message struct {
 	Message string
 }
 
+type ResponseData struct {
+	Recived Message
+	Length  int
+}
+
 // request + response with controlled json file
 func MessageReturner(w http.ResponseWriter, r *http.Request) {
 	// takes message then returns recived and length
@@ -20,5 +25,9 @@ func MessageReturner(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 	// return the same message
-	json.NewEncoder(w).Encode(message)
+	response := ResponseData{
+		Recived: message,
+		Length:  len(message.Message),
+	}
+	json.NewEncoder(w).Encode(response)
 }
