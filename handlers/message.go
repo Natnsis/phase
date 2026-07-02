@@ -6,12 +6,12 @@ import (
 )
 
 type Message struct {
-	Message string
+	Message string `json:"message"`
 }
 
 type ResponseData struct {
-	Recived Message
-	Length  int
+	Recived Message `json:"recieved"`
+	Length  int     `json:"length"`
 }
 
 // request + response with controlled json file
