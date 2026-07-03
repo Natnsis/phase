@@ -2,18 +2,17 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"net/http"
 
-	"pases/routes"
-
-	"github.com/gorilla/mux"
+	"pases/handlers"
+	//	"log"
+	//	"net/http"
+	//	"github.com/gorilla/mux"
 )
 
 func main() {
-	router := mux.NewRouter()
-	routes.MessageRoutes(router)
-	routes.NewRoutes(router)
+	//	router := mux.NewRouter()
+	b := "nati"
+	handlers.UploadFile()
 	fmt.Println("server is running on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	// log.Fatal(http.ListenAndServe(":8080", router))
 }
