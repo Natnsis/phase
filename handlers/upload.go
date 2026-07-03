@@ -2,27 +2,34 @@ package handlers
 
 import "net/http"
 
-var maxUploadSize = 100 << 20
+const (
+	maxSize   = 100 << 20
+	uploadDir = "~/Desktop/uploads"
+)
 
-func UploadFile(w http.ResponseWriter, r *http.Request) {
-	// check method to be only post
+func UploadHandler(w http.ResponseWriter, r *http.Request) {
+	// only post request method
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		http.Error(w, "method must be post", http.StatusInternalServerError)
 		return
 	}
 
-	// cap total request body size
-	r.Body = http.MaxBytesReader(w, r.Body, int64(maxUploadSize))
-	if err := r.ParseMultipartForm(32 << 20); err != nil {
-		http.Error(w, "file too large or bad form", http.StatusBadRequest)
+	// control request size
+	r.Body = http.MaxBytesReader(w, r.Body, maxSize)
+
+	// parse multipart headers into memory (32kb)
+	if err := r.ParseMultipartForm(32 << 10); err != nil {
+		http.Error(w, "file to large malformed request", http.StatusBadRequest)
 		return
 	}
 
-	// file form field name
+	// check the files existance
 	file, header, err := r.FormFile("file")
 	if err != nil {
-		http.Error(w, "missing file", http.StatusBadRequest)
+		http.Error(w, "no file found", http.StatusBadRequest)
 		return
 	}
 	defer file.Close()
+
+	savedPath, err := saveUploadedFile(file, header.Filename)
 }
