@@ -1,7 +1,6 @@
 package handlers
 
-import "net/http"
-
+/*
 const (
 	maxSize   = 100 << 20
 	uploadDir = "~/Desktop/uploads"
@@ -32,4 +31,11 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 	defer file.Close()
 
 	savedPath, err := saveUploadedFile(file, header.Filename)
+	if err != nil {
+		http.Error(w, "no file found", http.StatusBadRequest)
+		return
+	}
+
+	fmt.Fprint(w, "uploaded successfully")
 }
+*/
